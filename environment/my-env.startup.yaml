@@ -8,15 +8,17 @@
 
 # Required and used for new ldap server only
 LDAP_ORGANISATION: Example Inc.
-LDAP_DOMAIN: example.org
-LDAP_ADMIN_PASSWORD: P@ssw0rd
+LDAP_DOMAIN: example.com
+#LDAP_BASE_DN: dc=example,dc=com
+# default admin login is dn=admin,$LDAP_BASE_DN admin
+LDAP_ADMIN_PASSWORD: admin
 LDAP_CONFIG_PASSWORD: c0nfig
 
 LDAP_READONLY_USER: true
 LDAP_READONLY_USER_USERNAME: readonly
 LDAP_READONLY_USER_PASSWORD: passwr0rd!
 
-# Tls
+# TLS
 LDAP_TLS: false
 LDAP_TLS_CRT_FILENAME: cert.crt
 LDAP_TLS_KEY_FILENAME: cert.key

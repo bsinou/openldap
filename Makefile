@@ -1,12 +1,29 @@
-NAME = c12simple/openldap
-VERSION = 0.1.0
+OWNER=pydio
+IMG_NAME=ldap-for-testing
 
-.PHONY: all build build-nocache
+NAME=$(OWNER)/$(IMG_NAME)
 
-all: build
+# simply insures targets are never cached: "a phony target is simply a target that is always out-of-date"...
+.PHONY: clean build build-nocache publish set-tiny-tag tiny
 
-build:
-	docker build -t $(NAME):$(VERSION) --rm .
+clean:
+	@rm -rf ./bootstrap/ldif 
 
-build-nocache:
-	docker build -t $(NAME):$(VERSION) --no-cache --rm .
+build: clean
+	@cp -R ./assets/$(TAG)/ldif ./bootstrap/ldif 
+	docker build -t $(NAME):$(TAG) --rm .
+
+build-nocache: clean
+	@cp -R ./assets/$(TAG)/ldif ./bootstrap/ldif 
+	docker build -t $(NAME):$(TAG) --no-cache --rm .
+
+publish: build ## push to Docker 
+	@docker login
+	#docker push $(NAME):$(TAG)
+	@echo 'published $(NAME):$(TAG)'
+
+tiny: TAG=tiny
+tiny: build publish
+
+medium: TAG=medium
+medium: build publish
